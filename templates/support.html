@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support - ATC Resume Builder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&family=Playfair+Display:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root Variables for Light and Dark Modes */
+      :root {
+        --light-gray: #c6c5b9;
+        --teal: #62929e;
+        --dark-teal: #4a6d7c;
+        --dark-green: #393a10;
+        --charcoal: #475657;
+        --primary-color: #2563eb;
+        --secondary-color: #0f172a;
+        --accent-color: #38bdf8;
+        --light-bg: #ffffff;
+        --dark-bg: #1e293b;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --btn-text: #ffffff;
+        --border-color: #c6c5b9;
+        --muted-text: #475657;
+        --success-color: #34c759;
+        --hover-red: #ff5555;
+        --transition-speed: 0.4s;
+      }
+
+      [data-theme="dark"] {
+        --light-gray: #e0e0e0;
+        --teal: #60a5fa;
+        --dark-teal: #1e40af;
+        --dark-green: #2d3748;
+        --charcoal: #e0e0e0;
+        --primary-color: #60a5fa;
+        --secondary-color: #1e40af;
+        --accent-color: #38bdf8;
+        --light-bg: #1e293b;
+        --dark-bg: #0f172a;
+        --text-color: #e0e0e0;
+        --card-bg: #252f3f;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --btn-text: #ffffff;
+        --border-color: #4b5563;
+        --muted-text: #9ca3af;
+        --success-color: #34d399;
+        --hover-red: #ff5555;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          to bottom,
+          var(--light-bg),
+          var(--light-gray)
+        );
+        color: var(--text-color);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+        overflow-x: hidden;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+        padding: 1.8rem 5rem;
+        box-shadow: 0 8px 20px var(--shadow-color);
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        backdrop-filter: blur(5px);
+        transition: background-color var(--transition-speed);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        color: var(--btn-text);
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+      }
+
+      .navbar-brand:hover {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      }
+
+      .navbar-brand i {
+        margin-right: 1rem;
+        font-size: 1.8rem;
+        animation: spinCompass 10s linear infinite;
+      }
+
+      .nav-link {
+        color: var(--btn-text);
+        margin-left: 2rem;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-decoration: none;
+        position: relative;
+        transition: all var(--transition-speed);
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        bottom: -8px;
+        left: 0;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        transition: width var(--transition-speed);
+      }
+
+      .nav-link:hover::before {
+        width: 100%;
+      }
+
+      .nav-link:hover {
+        color: var(--btn-text);
+        text-shadow: 0 0 10px var(--teal);
+        transform: translateY(-2px);
+      }
+
+      .navbar-toggler {
+        border: none;
+        font-size: 2rem;
+        color: var(--btn-text);
+        transition: transform var(--transition-speed);
+      }
+
+      .navbar-toggler:hover {
+        transform: rotate(90deg);
+      }
+
+      .navbar-toggler-icon {
+        background-image: none;
+      }
+
+      .navbar-toggler-icon::before {
+        content: "\f0c9";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: var(--btn-text);
+      }
+
+      .auth-buttons .btn {
+        margin-left: 1rem;
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--btn-text);
+        box-shadow: 0 5px 15px var(--shadow-color);
+        transition: all var(--transition-speed);
+      }
+
+      .auth-buttons .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--shadow-color);
+      }
+
+      .btn-outline-primary {
+        background: transparent;
+        border: 2px solid var(--teal);
+        color: var(--teal);
+      }
+
+      .btn-outline-primary:hover {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border-color: transparent;
+        color: var(--btn-text);
+      }
+
+      /* Container Styling */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Support Section Styling */
+      .support-section {
+        padding: 4rem 0;
+      }
+
+      .support-section h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--dark-teal);
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .guide-list,
+      .troubleshooting {
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .guide-item,
+      .trouble-item {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        padding: 1.5rem;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        transition: all var(--transition-speed);
+      }
+
+      .guide-item:hover,
+      .trouble-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .guide-item h3,
+      .trouble-item h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark-teal);
+        margin-bottom: 0.75rem;
+      }
+
+      .guide-item p,
+      .trouble-item p {
+        font-size: 1rem;
+        color: var(--charcoal);
+      }
+
+      .guide-item ol {
+        padding-left: 1.5rem;
+        color: var(--charcoal);
+      }
+
+      .guide-item ol li {
+        margin-bottom: 0.5rem;
+      }
+
+      .guide-item a,
+      .trouble-item a {
+        color: var(--teal);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      .guide-item a:hover,
+      .trouble-item a:hover {
+        color: var(--dark-teal);
+        text-decoration: underline;
+      }
+
+      /* Footer Styling */
+      footer {
+        background: linear-gradient(90deg, var(--dark-green), var(--charcoal));
+        color: var(--btn-text);
+        padding: 3rem 0;
+        margin-top: 4rem;
+        position: relative;
+        box-shadow: 0 -5px 20px var(--shadow-color);
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        animation: gradientFlow 5s linear infinite;
+      }
+
+      footer h5 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: var(--teal);
+        margin-bottom: 1.5rem;
+      }
+
+      footer ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      footer ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      footer ul li a {
+        color: var(--btn-text);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      footer ul li a:hover {
+        color: var(--teal);
+      }
+
+      .footer-bottom {
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .footer-bottom strong {
+        color: var(--teal);
+      }
+
+      /* Animations */
+      @keyframes spinCompass {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 991.98px) {
+        .navbar {
+          padding: 1.5rem 3rem;
+        }
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        .navbar-brand i {
+          font-size: 1.5rem;
+        }
+        .support-section {
+          padding: 3rem 0;
+        }
+        .support-section h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .navbar {
+          padding: 1rem 2rem;
+        }
+        .nav-link {
+          margin-left: 1rem;
+          font-size: 1rem;
+        }
+        .auth-buttons .btn {
+          padding: 0.6rem 1.5rem;
+          font-size: 0.9rem;
+        }
+        .guide-item,
+        .trouble-item {
+          padding: 1rem;
+        }
+        .support-section h2 {
+          font-size: 1.8rem;
+        }
+        footer {
+          text-align: center;
+        }
+        footer .col-md-4,
+        footer .col-md-2,
+        footer .col-md-3 {
+          margin-bottom: 2rem;
+        }
+      }
+
+      @media (max-width: 575.98px) {
+        .navbar-brand {
+          font-size: 1.2rem;
+        }
+        .navbar-brand i {
+          font-size: 1.2rem;
+        }
+        .container {
+          padding: 0 1rem;
+        }
+        .support-section h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header/Navbar -->
+    <header>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a href="/" class="navbar-brand">
+            <i class="fa-regular fa-compass"></i>
+            CareerCompass
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/build-resume">Build Resume</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/blog">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/login">ALogin</a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Support Content -->
+    <section class="support-section">
+      <div class="container">
+        <h2>How to Use ATC Resume Builder</h2>
+        <div class="guide-list">
+          <div class="guide-item">
+            <h3>Step 1: Register and Log In</h3>
+            <p>To start building your resume, you need an account:</p>
+            <ol>
+              <li>
+                Go to the homepage and click "Register" in the navbar (or visit
+                <a href="/register">/register</a>).
+              </li>
+              <li>Enter your email, password, and full name, then submit.</li>
+              <li>
+                After registering, go to <a href="/login">/login</a>, enter your
+                credentials, and click "Log In."
+              </li>
+            </ol>
+          </div>
+          <div class="guide-item">
+            <h3>Step 2: Build Your Resume</h3>
+            <p>Create your resume with our easy-to-use tool:</p>
+            <ol>
+              <li>
+                Once logged in, navigate to
+                <a href="/build-resume">/build-resume</a> from the homepage or
+                navbar.
+              </li>
+              <li>
+                Fill out the form with your personal info (name, email, phone,
+                location).
+              </li>
+              <li>
+                Add sections like Education, Work Experience, Projects, and
+                Skills. Use the "Add More" buttons to include multiple entries.
+              </li>
+              <li>
+                For each section, provide details like dates, descriptions, and
+                bullet points for achievements.
+              </li>
+              <li>Click "Preview" to see your resume.</li>
+            </ol>
+          </div>
+          <div class="guide-item">
+            <h3>Step 3: Preview and Edit</h3>
+            <p>Review and refine your resume:</p>
+            <ol>
+              <li>
+                After submitting the form, you’ll see a preview of your resume.
+              </li>
+              <li>
+                Check for accuracy and formatting. If needed, go back to edit
+                any section.
+              </li>
+              <li>
+                Ensure your content is ATS-friendly by using job-specific
+                keywords and avoiding complex layouts.
+              </li>
+            </ol>
+          </div>
+          <div class="guide-item">
+            <h3>Step 4: Download Your Resume</h3>
+            <p>Get your resume as a PDF:</p>
+            <ol>
+              <li>From the preview page, click "Download."</li>
+              <li>
+                The system will generate a PDF file named with your name (e.g.,
+                "John_Doe_Resume.pdf").
+              </li>
+              <li>
+                Save the file to your device and use it for job applications.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <h2>Troubleshooting Tips</h2>
+        <div class="troubleshooting">
+          <div class="trouble-item">
+            <h3>Can’t Log In</h3>
+            <p>
+              Double-check your email and password. If you’ve forgotten your
+              password, this feature is coming soon—meanwhile, create a new
+              account with a different email.
+            </p>
+          </div>
+          <div class="trouble-item">
+            <h3>PDF Download Fails</h3>
+            <p>
+              Ensure all required fields (e.g., name, education) are filled. Try
+              refreshing the page or using a different browser (Chrome or
+              Firefox recommended).
+            </p>
+          </div>
+          <div class="trouble-item">
+            <h3>Form Data Not Saving</h3>
+            <p>
+              You must be logged in to save data. If logged in and still facing
+              issues, clear your browser cache or log out and back in.
+            </p>
+          </div>
+          <div class="trouble-item">
+            <h3>Preview Looks Wrong</h3>
+            <p>
+              Check for typos or incomplete fields. Avoid special characters or
+              excessive text in descriptions, as they may disrupt formatting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mb-4">
+            <h5>ATC Resume Builder</h5>
+            <p>
+              Your go-to tool for creating ATS-friendly resumes that land jobs.
+            </p>
+          </div>
+          <div class="col-md-2 col-sm-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/build-resume">Build Resume</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/tips">Resume Tips</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/support">Support</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Contact Us</h5>
+            <ul>
+              <li>
+                <a href="mailto:dropafile07@gmail.com">dropafile07@gmail.com</a>
+              </li>
+              <li>Bengaluru, Karnataka</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ATC Resume Builder. All rights reserved.</p>
+          <p>
+            <strong>Designed By: <i>Prajwal A B</i></strong>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

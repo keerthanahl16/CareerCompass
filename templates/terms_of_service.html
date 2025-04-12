@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - ATC Resume Builder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root Variables for Light and Dark Modes */
+      :root {
+        --light-gray: #c6c5b9;
+        --teal: #62929e;
+        --dark-teal: #4a6d7c;
+        --dark-green: #393a10;
+        --charcoal: #475657;
+        --primary-color: #2563eb;
+        --secondary-color: #0f172a;
+        --accent-color: #38bdf8;
+        --light-bg: #ffffff;
+        --dark-bg: #1e293b;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --btn-text: #ffffff;
+        --border-color: #c6c5b9;
+        --muted-text: #475657;
+        --success-color: #34c759;
+        --hover-red: #ff5555;
+        --transition-speed: 0.4s;
+      }
+
+      [data-theme="dark"] {
+        --light-gray: #e0e0e0;
+        --teal: #60a5fa;
+        --dark-teal: #1e40af;
+        --dark-green: #2d3748;
+        --charcoal: #e0e0e0;
+        --primary-color: #60a5fa;
+        --secondary-color: #1e40af;
+        --accent-color: #38bdf8;
+        --light-bg: #1e293b;
+        --dark-bg: #0f172a;
+        --text-color: #e0e0e0;
+        --card-bg: #252f3f;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --btn-text: #ffffff;
+        --border-color: #4b5563;
+        --muted-text: #9ca3af;
+        --success-color: #34d399;
+        --hover-red: #ff5555;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          to bottom,
+          var(--light-bg),
+          var(--light-gray)
+        );
+        color: var(--text-color);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+        -webkit-text-size-adjust: 100%;
+        overflow-x: hidden;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+        padding: 1.8rem 5rem;
+        box-shadow: 0 8px 20px var(--shadow-color);
+        position: sticky;
+        top: 0;
+        z-index: 1030;
+        backdrop-filter: blur(5px);
+        transition: background-color var(--transition-speed);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        color: var(--btn-text);
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+      }
+
+      .navbar-brand:hover {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      }
+
+      .navbar-brand i {
+        margin-right: 1rem;
+        font-size: 1.8rem;
+        animation: spinCompass 10s linear infinite;
+      }
+
+      .nav-link {
+        color: var(--btn-text);
+        margin-left: 2rem;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-decoration: none;
+        position: relative;
+        transition: all var(--transition-speed);
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        bottom: -8px;
+        left: 0;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        transition: width var(--transition-speed);
+      }
+
+      .nav-link:hover::before {
+        width: 100%;
+      }
+
+      .nav-link:hover {
+        color: var(--btn-text);
+        text-shadow: 0 0 10px var(--teal);
+        transform: translateY(-2px);
+      }
+
+      .navbar-toggler {
+        border: none;
+        font-size: 2rem;
+        color: var(--btn-text);
+        transition: transform var(--transition-speed);
+      }
+
+      .navbar-toggler:hover {
+        transform: rotate(90deg);
+      }
+
+      .navbar-toggler-icon {
+        background-image: none;
+      }
+
+      .navbar-toggler-icon::before {
+        content: "\f0c9";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: var(--btn-text);
+      }
+
+      .auth-buttons .btn {
+        margin-left: 1rem;
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--btn-text);
+        box-shadow: 0 5px 15px var(--shadow-color);
+        transition: all var(--transition-speed);
+      }
+
+      .auth-buttons .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--shadow-color);
+      }
+
+      .btn-outline-primary {
+        background: transparent;
+        border: 2px solid var(--teal);
+        color: var(--teal);
+      }
+
+      .btn-outline-primary:hover {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border-color: transparent;
+        color: var(--btn-text);
+      }
+
+      /* Container Styling */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      /* Card Styling */
+      .card {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        position: relative;
+        overflow: hidden;
+        transition: all var(--transition-speed);
+        margin-bottom: 2rem;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .card-body {
+        padding: 2rem;
+      }
+
+      /* Privacy Policy Specific Styling */
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--dark-teal);
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1.5rem;
+      }
+
+      h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--dark-teal);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+      }
+
+      .hi {
+        font-size: 1rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+      }
+
+      a.text-primary {
+        color: var(--teal);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      a.text-primary:hover {
+        color: var(--dark-teal);
+        text-decoration: underline;
+      }
+
+      /* Buttons */
+      .btn {
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all var(--transition-speed);
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        color: var(--btn-text);
+        box-shadow: 0 5px 15px var(--shadow-color);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--shadow-color);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left var(--transition-speed);
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      /* Footer Styling */
+      footer {
+        background: linear-gradient(90deg, var(--dark-green), var(--charcoal));
+        color: var(--btn-text);
+        padding: 3rem 0;
+        margin-top: 5rem;
+        position: relative;
+        box-shadow: 0 -5px 20px var(--shadow-color);
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        animation: gradientFlow 5s linear infinite;
+      }
+
+      footer h5 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: var(--teal);
+        margin-bottom: 1.5rem;
+      }
+
+      footer ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      footer ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      footer ul li a {
+        color: var(--btn-text);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      footer ul li a:hover {
+        color: var(--teal);
+      }
+
+      .footer-bottom {
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .footer-bottom p {
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .footer-bottom strong {
+        color: var(--teal);
+      }
+
+      /* Animations */
+      @keyframes spinCompass {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 991.98px) {
+        .navbar {
+          padding: 1.5rem 3rem;
+        }
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        .navbar-brand i {
+          font-size: 1.5rem;
+        }
+        .card-body {
+          padding: 1.5rem;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .navbar {
+          padding: 1rem 2rem;
+        }
+        .nav-link {
+          margin-left: 1rem;
+          font-size: 1rem;
+        }
+        .auth-buttons .btn {
+          padding: 0.6rem 1.5rem;
+          font-size: 0.9rem;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+        h2 {
+          font-size: 1.3rem;
+        }
+        p {
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 575.98px) {
+        .navbar-brand {
+          font-size: 1.2rem;
+        }
+        .navbar-brand i {
+          font-size: 1.2rem;
+        }
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header/Navbar -->
+    <header>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a href="/" class="navbar-brand">
+            <i class="fa-regular fa-compass"></i>
+            CareerCompass
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/build-resume">Build Resume</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/blog">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+            </ul>
+            <div class="d-flex align-items-center">
+              <div class="theme-toggle-wrapper d-none d-lg-block me-3"></div>
+              <div class="auth-buttons">
+                <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/register" class="btn btn-primary">Register</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Terms of Service Section -->
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow">
+            <div class="card-body p-5">
+              <h1 class="text-center mb-4">Terms of Service</h1>
+
+              <h2>1. Acceptance of Terms</h2>
+              <p>
+                By using ATC Resume Builder, you agree to these Terms of
+                Service. If you do not agree, please do not use our service.
+              </p>
+
+              <h2>2. Use of Service</h2>
+              <p>
+                You may use our service to create resumes for personal use. You
+                must not misuse our platform, including uploading harmful
+                content or violating laws.
+              </p>
+
+              <h2>3. Account Responsibility</h2>
+              <p>
+                You are responsible for maintaining the confidentiality of your
+                account and password. Notify us immediately of any unauthorized
+                use.
+              </p>
+
+              <h2>4. Termination</h2>
+              <p>
+                We may suspend or terminate your account if you violate these
+                terms, with or without notice.
+              </p>
+
+              <h2>5. Limitation of Liability</h2>
+              <p>
+                ATC Resume Builder is provided "as is." We are not liable for
+                any damages arising from your use of the service.
+              </p>
+
+              <h2>6. Contact Us</h2>
+              <p>
+                For questions, reach out via our
+                <a href="{{ url_for('contact') }}" class="text-primary"
+                  >Contact Page</a
+                >.
+              </p>
+
+              <div class="text-center mt-4">
+                <a href="{{ url_for('index') }}" class="btn btn-primary"
+                  >Back to Home</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mb-4">
+            <h5>ATC Resume Builder</h5>
+            <p class="hi">
+              Your go-to tool for creating ATS-friendly resumes that land jobs.
+            </p>
+          </div>
+          <div class="col-md-2 col-sm-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/build-resume">Build Resume</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/tips">Resume Tips</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/support">Support</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Contact Us</h5>
+            <ul>
+              <li>
+                <a href="mailto:dropafile07@gmail.com">dropafile07@gmail.com</a>
+              </li>
+              <li>Bengaluru, Karnataka</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom text-center">
+          <p class="hi">© 2025 ATC Resume Builder. All rights reserved.</p>
+          <p>
+            <strong>Designed By: <i>Prajwal A B</i></strong>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

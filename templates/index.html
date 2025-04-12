@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerCompass</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&family=Playfair+Display:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --light-gray: #c6c5b9;
+        --teal: #62929e;
+        --dark-teal: #4a6d7c;
+        --dark-green: #393a10;
+        --charcoal: #475657;
+        --primary-color: #2563eb;
+        --secondary-color: #0f172a;
+        --accent-color: #38bdf8;
+        --light-bg: #ffffff;
+        --dark-bg: #1e293b;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --btn-text: #ffffff;
+      }
+
+      [data-theme="dark"] {
+        --light-gray: #e0e0e0;
+        --teal: #60a5fa;
+        --dark-teal: #1e40af;
+        --dark-green: #2d3748;
+        --charcoal: #e0e0e0;
+        --primary-color: #60a5fa;
+        --secondary-color: #1e40af;
+        --accent-color: #38bdf8;
+        --light-bg: #1e293b;
+        --dark-bg: #0f172a;
+        --text-color: #e0e0e0;
+        --card-bg: #252f3f;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --btn-text: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          to bottom,
+          var(--light-bg),
+          var(--light-gray)
+        );
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+        padding: 1.8rem 5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 8px 20px var(--shadow-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        color: var(--btn-text);
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: all 0.4s ease;
+      }
+
+      .navbar-brand:hover {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      }
+
+      .navbar-brand i {
+        margin-right: 1rem;
+        font-size: 2.2rem;
+        animation: spinCompass 10s linear infinite;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: var(--btn-text);
+        margin-left: 3rem;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: 400;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        bottom: -8px;
+        left: 0;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        transition: width 0.4s ease;
+      }
+
+      .nav-link:hover::before {
+        width: 100%;
+      }
+
+      .nav-link:hover {
+        color: var(--btn-text);
+        text-shadow: 0 0 10px var(--teal);
+        transform: translateY(-2px);
+      }
+
+      .hamburger {
+        display: none;
+        font-size: 2rem;
+        color: var(--btn-text);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .hamburger:hover {
+        transform: rotate(90deg);
+      }
+
+      .auth-buttons .btn {
+        margin-left: 1rem;
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--btn-text);
+        box-shadow: 0 5px 15px var(--shadow-color);
+        transition: all 0.4s ease;
+      }
+
+      .auth-buttons .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--shadow-color);
+      }
+
+      /* Hero Section */
+      .hero-section {
+        position: relative;
+        text-align: center;
+        padding: 8rem 2rem;
+        background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+        color: var(--btn-text);
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      #webgl-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.7;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+      }
+
+      .hero-section h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 5rem;
+        font-weight: 900;
+        margin-bottom: 2rem;
+        animation: fadeInDown 1.5s ease-out;
+        text-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 10px var(--teal);
+      }
+
+      .hero-section p {
+        font-size: 1.6rem;
+        font-weight: 200;
+        margin-bottom: 3rem;
+        animation: fadeInUp 1.5s ease-out 0.5s;
+        animation-fill-mode: backwards;
+      }
+
+      .cta-button {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        color: var(--btn-text);
+        padding: 1.2rem 4rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 25px var(--shadow-color);
+        transition: all 0.5s ease;
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px var(--shadow-color);
+      }
+
+      /* Features Section */
+      .features {
+        max-width: 1200px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 3rem;
+      }
+
+      .card {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          var(--teal),
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .card:hover::before {
+        opacity: 0.15;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .feature-icon {
+        font-size: 4rem;
+        color: var(--teal);
+        margin-bottom: 2rem;
+        transition: all 0.4s ease;
+      }
+
+      .card:hover .feature-icon {
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 15px rgba(98, 146, 158, 0.7));
+      }
+
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+        color: var(--dark-teal);
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-text {
+        font-size: 1.1rem;
+        color: var(--charcoal);
+        font-weight: 200;
+      }
+
+      /* How It Works Section */
+      .how-it-works {
+        max-width: 1200px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+      }
+
+      .step {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease;
+      }
+
+      .step:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .step-number {
+        font-size: 2rem;
+        color: var(--teal);
+        margin-bottom: 1.5rem;
+      }
+
+      .step h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: var(--dark-teal);
+        margin-bottom: 1rem;
+      }
+
+      .step p {
+        font-size: 1.1rem;
+        color: var(--charcoal);
+      }
+
+      /* Footer */
+      .footer {
+        background: linear-gradient(90deg, var(--dark-green), var(--charcoal));
+        color: var(--btn-text);
+        text-align: center;
+        padding: 3rem;
+        margin-top: 5rem;
+        font-size: 1.1rem;
+        position: relative;
+        box-shadow: 0 -5px 20px var(--shadow-color);
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        animation: gradientFlow 5s linear infinite;
+      }
+
+      .footer h5 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        color: var(--teal);
+        margin-bottom: 1.5rem;
+      }
+
+      .footer ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer ul li a {
+        color: var(--btn-text);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer ul li a:hover {
+        color: var(--teal);
+      }
+
+      .footer-bottom {
+        margin-top: 2rem;
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes spinCompass {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1.5rem 3rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          margin-top: 1rem;
+          background: var(--dark-teal);
+          padding: 1rem;
+          border-radius: 10px;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-link {
+          margin: 0.5rem 0;
+          font-size: 1.1rem;
+        }
+
+        .hamburger {
+          display: block;
+        }
+
+        .hero-section h1 {
+          font-size: 3rem;
+        }
+
+        .hero-section p {
+          font-size: 1.3rem;
+        }
+
+        .features,
+        .how-it-works {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-section {
+          padding: 5rem 1rem;
+        }
+
+        .hero-section h1 {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <a href="/" class="navbar-brand">
+        <i class="fa-regular fa-compass"></i>
+        CareerCompass
+      </a>
+      <div class="nav-links">
+        <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('build_resume') }}" class="nav-link"
+          >Build Resume</a
+        >
+        <a href="http://127.0.0.1:4000/roadmap" class="nav-link">roadmap</a>
+        <a href="http://127.0.0.1:4000/chatbot" class="nav-link">chatbot</a>
+        <a href="{{ url_for('blog') }}" class="nav-link">Blog</a>
+        <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+      </div>
+      <div class="auth-buttons">
+        {% if 'user_id' in session %}
+        <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn">Register</a>
+        {% endif %}
+      </div>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <canvas id="webgl-canvas"></canvas>
+      <div class="hero-content">
+        <h1>CareerCompass</h1>
+        <p>Assist In Building Roadmap For Your Career</p>
+        {% if 'user_id' in session %}
+        <a href="{{ url_for('build_resume') }}" class="cta-button"
+          >Build Resume</a
+        >
+        {% else %}
+        <a href="{{ url_for('login') }}" class="cta-button">Login</a>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="card" data-tilt>
+        <i class="fas fa-check-circle feature-icon"></i>
+        <h3 class="card-title">ATS-Approved Format</h3>
+        <p class="card-text">
+          Our templates follow the exact format approved by recruiters and ATS
+          systems.
+        </p>
+      </div>
+      <div class="card" data-tilt>
+        <i class="fas fa-bolt feature-icon"></i>
+        <h3 class="card-title">Easy and Fast</h3>
+        <p class="card-text">
+          Build your professional resume in minutes with our intuitive form
+          builder.
+        </p>
+      </div>
+      <div class="card" data-tilt>
+        <i class="fas fa-download feature-icon"></i>
+        <h3 class="card-title">Instant Download</h3>
+        <p class="card-text">
+          Preview your resume and download it instantly as a professionally
+          formatted PDF.
+        </p>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2 class="text-center mb-5">How It Works</h2>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="step" data-tilt>
+            <div class="step-number">1</div>
+            <h3>Fill Your Details</h3>
+            <p>
+              Enter your personal information, education, work experience, and
+              skills.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step" data-tilt>
+            <div class="step-number">2</div>
+            <h3>Review Format</h3>
+            <p>
+              Preview how your resume will look with our ATC-approved format.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step" data-tilt>
+            <div class="step-number">3</div>
+            <h3>Make Adjustments</h3>
+            <p>Edit and fine-tune your content until it's perfect.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step" data-tilt>
+            <div class="step-number">4</div>
+            <h3>Download PDF</h3>
+            <p>Get your polished, professional resume ready to use.</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <a href="/build-resume" class="cta-button">Create Your Resume Now</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mb-4">
+            <h5>CareerCompass</h5>
+            <p>
+              Your go-to tool for creating ATS-friendly resumes that land jobs.
+            </p>
+          </div>
+          <div class="col-md-2 col-sm-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="{{ url_for('index') }}">Home</a></li>
+              <li><a href="{{ url_for('build_resume') }}">Build Resume</a></li>
+              <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="{{ url_for('blog') }}">Blog</a></li>
+              <li><a href="{{ url_for('tips') }}">Resume Tips</a></li>
+              <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+              <li><a href="{{ url_for('support') }}">Support</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Contact Us</h5>
+            <ul>
+              <li>
+                <a href="mailto:dropafile07@gmail.com">dropafile07@gmail.com</a>
+              </li>
+              <li>Bengaluru, Karnataka</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom text-center">
+          <p>© 2025 CareerCompass. All rights reserved.</p>
+          <p>
+            <strong>Team SCAR</strong>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script>
+      // WebGL Particle System
+      const canvas = document.getElementById("webgl-canvas");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.position.z = 50;
+
+      const particleCount = 1000;
+      const particles = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const velocities = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 100;
+        positions[i + 1] = (Math.random() - 0.5) * 100;
+        positions[i + 2] = (Math.random() - 0.5) * 100;
+        velocities[i] = (Math.random() - 0.5) * 0.1;
+        velocities[i + 1] = (Math.random() - 0.5) * 0.1;
+        velocities[i + 2] = (Math.random() - 0.5) * 0.1;
+      }
+
+      particles.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+      );
+      const particleMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.5,
+        transparent: true,
+        opacity: 0.6,
+      });
+      const particleSystem = new THREE.Points(particles, particleMaterial);
+      scene.add(particleSystem);
+
+      function animateParticles() {
+        requestAnimationFrame(animateParticles);
+        const positions = particleSystem.geometry.attributes.position.array;
+        for (let i = 0; i < particleCount * 3; i += 3) {
+          positions[i] += velocities[i];
+          positions[i + 1] += velocities[i + 1];
+          positions[i + 2] += velocities[i + 2];
+          if (Math.abs(positions[i]) > 50) velocities[i] *= -1;
+          if (Math.abs(positions[i + 1]) > 50) velocities[i + 1] *= -1;
+          if (Math.abs(positions[i + 2]) > 50) velocities[i + 2] *= -1;
+        }
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+      }
+      animateParticles();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Hamburger Menu Toggle
+      const hamburger = document.querySelector(".hamburger");
+      const navLinks = document.querySelector(".nav-links");
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+        hamburger.querySelector("i").classList.toggle("fa-bars");
+        hamburger.querySelector("i").classList.toggle("fa-times");
+      });
+
+      // Vanilla Tilt for 3D effect
+      VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.3,
+      });
+
+      // Smooth Scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove("active");
+            hamburger.querySelector("i").classList.add("fa-bars");
+            hamburger.querySelector("i").classList.remove("fa-times");
+          }
+        });
+      });
+
+      // Card Animation on Scroll
+      const cards = document.querySelectorAll(".card, .step");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0) scale(1)";
+              entry.target.style.transitionDelay = `${index * 0.15}s`;
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      cards.forEach((card) => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(40px) scale(0.95)";
+        card.style.transition = "all 0.7s ease";
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>

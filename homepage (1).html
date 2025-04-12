@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerCompass - Your Career GPS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&family=Playfair+Display:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --light-gray: #C6C5B9;
+            --teal: #62929E;
+            --dark-teal: #4A6D7C;
+            --dark-green: #393A10;
+            --charcoal: #475657;
+            --white: #F9FAFB;
+            --accent: #E8ECEF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(to bottom, var(--white), var(--accent));
+            color: var(--charcoal);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+            padding: 1rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: padding 0.3s ease, background 0.3s ease;
+            width: 100%;
+        }
+
+        .navbar.scrolled {
+            padding: 0.7rem 4%;
+            background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            color: var(--light-gray);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-right: 1.5rem;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar .logo i {
+            margin-right: 0.6rem;
+            font-size: 1.7rem;
+            animation: spinCompass 15s linear infinite;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            flex-grow: 1;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+        }
+
+        .navbar .nav-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .navbar .nav-links a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, var(--light-gray), var(--white));
+            transition: width 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            color: var(--light-gray);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Updated responsive design for the navbar */
+        @media (max-width: 1200px) {
+            .navbar {
+                padding: 1rem 3%;
+            }
+
+            .navbar .logo {
+                font-size: 1.8rem;
+            }
+
+            .navbar .nav-links {
+                gap: 1.5rem;
+            }
+
+            .navbar .nav-links a {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 1rem 2%;
+            }
+
+            .navbar .nav-links {
+                gap: 1.2rem;
+            }
+
+            .navbar .logo {
+                font-size: 1.7rem;
+            }
+
+            .navbar .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .navbar {
+                padding: 1rem 2rem;
+                flex-wrap: wrap;
+            }
+
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+                background: var(--dark-teal);
+                padding: 1.5rem;
+                border-radius: 10px;
+                gap: 1.5rem;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .nav-links a {
+                font-size: 1.1rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .navbar .logo {
+                font-size: 1.6rem;
+            }
+
+            .navbar .logo i {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+            color: var(--light-gray);
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #webgl-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 1.8rem;
+            animation: fadeInDown 1s ease-out;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.3s;
+            animation-fill-mode: backwards;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--dark-green), var(--teal));
+            color: var(--light-gray);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.4s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, var(--teal), var(--dark-green));
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(145deg, var(--white), var(--light-gray));
+            border-radius: 25px;
+            box-shadow: 0 8px 35px rgba(98, 146, 158, 0.25);
+            transition: transform 0.4s ease;
+        }
+
+        .user-profile:hover {
+            transform: translateY(-8px);
+        }
+
+        .user-profile .profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--teal), var(--dark-teal));
+            margin: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s ease;
+        }
+
+        .user-profile .profile-pic:hover {
+            transform: scale(1.08);
+        }
+
+        .user-profile .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-profile .profile-details {
+            flex: 1;
+        }
+
+        .user-profile .profile-details h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem;
+            color: var(--dark-teal);
+            margin-bottom: 1.2rem;
+        }
+
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 3px solid var(--teal);
+            white-space: nowrap;
+            animation: typing 3s steps(20, end) forwards, blink 0.8s step-end infinite;
+        }
+
+        .user-profile .profile-details p {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .user-profile .profile-details p::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--teal);
+        }
+
+        .user-profile .profile-details .edit-profile {
+            margin-top: 2rem;
+            color: var(--light-gray);
+            background: var(--teal);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-profile .profile-details .edit-profile:hover {
+            background: var(--dark-teal);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Dashboard Section */
+        .dashboard {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--white), var(--light-gray));
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card i {
+            font-size: 3.5rem;
+            color: var(--teal);
+            margin-bottom: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover i {
+            transform: scale(1.1);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--dark-teal);
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, var(--dark-green), var(--charcoal));
+            color: var(--light-gray);
+            padding: 4rem 5rem;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .footer-content .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-content .footer-brand p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--light-gray);
+        }
+
+        .footer-content .footer-links h4,
+        .footer-content .footer-social h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-content .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-content .footer-links ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-content .footer-links ul li a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-content .footer-links ul li a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .footer-content .footer-social .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-content .footer-social .social-icons a {
+            color: var(--light-gray);
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-content .footer-social .social-icons a:hover {
+            color: var(--white);
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            color: var(--light-gray);
+        }
+
+        /* Floating Chatbot Button */
+        .chatbot-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--dark-green), var(--teal));
+            border: none;
+            border-radius: 50%;
+            color: var(--light-gray);
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1001;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .chatbot-button i {
+            animation: jump 2s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes jump {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        @keyframes spinCompass {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 1rem 3rem;
+            }
+
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 2rem;
+                flex-wrap: wrap;
+            }
+
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 1rem;
+                background: var(--dark-teal);
+                padding: 1.5rem;
+                border-radius: 10px;
+                gap: 1.5rem;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .nav-links a {
+                font-size: 1.2rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero {
+                padding: 5rem 1.5rem;
+                min-height: 70vh;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .user-profile {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .user-profile .profile-pic {
+                margin: 1.5rem 0;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-content .footer-social .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1rem;
+                min-height: 60vh;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .chatbot-button {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <i class="fa-regular fa-compass"></i>
+            CareerCompass
+        </a>
+        <div class="nav-links">
+            <a href="/roadmap">Roadmap</a>
+            <a href="/resume-analyzer">Resume Analyzer</a>
+            <a href="/progress-tracker">Progress Tracker</a>
+            <a href="/resume-comparison">Resume Comparison</a>
+            <a href="https://careercompassresume.pythonanywhere.com/">Resume Builder</a>
+            <a href="/chatbot">AI Mentor</a>
+        </div>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <canvas id="webgl-canvas"></canvas>
+        <div class="hero-content">
+            <h1>Discover Your Career Destiny!</h1>
+            <p>Chart a personalized path to your dream career with expert guidance and curated resources.</p>
+            <button class="cta-button" onclick="startJourney()">Begin Your Journey try Roadmap</button>
+        </div>
+    </section>
+
+    <!-- User Profile Section -->
+    <!-- <section class="user-profile" data-tilt>
+        <div class="profile-pic">
+            <img src="https://via.placeholder.com/180" alt="User Profile Photo">
+        </div>
+        <div class="profile-details">
+            <h2><span class="typewriter">Welcome, Riya!</span></h2>
+            <p><strong>Goal:</strong> Exploring Career Options</p>
+            <p><strong>Current Level:</strong> Intermediate</p>
+            <p><strong>Progress:</strong> 35% to Next Milestone</p>
+            <p><strong>Last Active:</strong> April 10, 2025</p>
+            <a href="#edit-profile" class="edit-profile">Edit Profile</a>
+        </div>
+    </section> -->
+
+    <!-- Dashboard Section -->
+    <section class="dashboard">
+        <div class="card" data-tilt>
+            <i class="fas fa-clipboard-check"></i>
+            <h3>Assess Your Skills</h3>
+            <p>Discover your strengths with quizzes and portfolio reviews for any career path.</p>
+        </div>
+        <div class="card" data-tilt>
+            <i class="fas fa-map-signs"></i>
+            <h3>Personalized Roadmap</h3>
+            <p>Get a tailored plan to guide you to your chosen profession.</p>
+        </div>
+        <div class="card" data-tilt>
+            <i class="fas fa-book-open"></i>
+            <h3>Curated Resources</h3>
+            <p>Access top learning materials for any career, all in one place.</p>
+        </div>
+        <div class="card" data-tilt>
+            <i class="fas fa-chart-line"></i>
+            <h3>Track Your Progress</h3>
+            <p>Monitor milestones and stay motivated toward your dream career.</p>
+        </div>
+        <div class="card" data-tilt>
+            <i class="fas fa-robot"></i>
+            <h3>AI-Powered Mentor</h3>
+            <p>Receive personalized guidance from an intelligent mentor tailored to your goals.</p>
+        </div>
+        <div class="card" data-tilt>
+            <i class="fas fa-quote-left "></i>
+            <h3>Resume Builder</h3>
+            <p>Build Resumes By Providing Details and then Download it.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Designed and Developed by <strong>Team SCAR</strong></p>
+        <p><strong>Aryan, Prajwal, Keerthana, Lakki</strong></p>
+        <p>© 2025 CareerCompass. Your guide to every career horizon.</p>
+    </footer>
+
+    <!-- Floating Chatbot Button -->
+    <button class="chatbot-button" onclick="openChatbot()">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script>
+        // WebGL Particle System
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.z = 50;
+
+        const particleCount = 1000;
+        const particles = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const velocities = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 100;
+            positions[i + 1] = (Math.random() - 0.5) * 100;
+            positions[i + 2] = (Math.random() - 0.5) * 100;
+            velocities[i] = (Math.random() - 0.5) * 0.1;
+            velocities[i + 1] = (Math.random() - 0.5) * 0.1;
+            velocities[i + 2] = (Math.random() - 0.5) * 0.1;
+        }
+
+        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particleMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.5,
+            transparent: true,
+            opacity: 0.6,
+        });
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        scene.add(particleSystem);
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            const positions = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] += velocities[i];
+                positions[i + 1] += velocities[i + 1];
+                positions[i + 2] += velocities[i + 2];
+                if (Math.abs(positions[i]) > 50) velocities[i] *= -1;
+                if (Math.abs(positions[i + 1]) > 50) velocities[i + 1] *= -1;
+                if (Math.abs(positions[i + 2]) > 50) velocities[i + 2] *= -1;
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+            renderer.render(scene, camera);
+        }
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Vanilla Tilt for 3D effect
+        VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            'max-glare': 0.3,
+        });
+
+        // Start Journey
+        function startJourney() {
+            window.location.href = "/roadmap";
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                }
+            });
+        });
+
+        // Card Animation on Scroll
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0) scale(1)';
+                    entry.target.style.transitionDelay = `${index * 0.15}s`; // Fixed template literal syntax
+                }
+            });
+        }, { threshold: 0.3 });
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px) scale(0.95)';
+            card.style.transition = 'all 0.7s ease';
+            observer.observe(card);
+        });
+
+        // Chatbot Function (Placeholder)
+        function openChatbot() {
+            window.location.href = "/chatbot"; // Example redirect to chatbot page
+        }
+    </script>
+</body>
+
+</html>

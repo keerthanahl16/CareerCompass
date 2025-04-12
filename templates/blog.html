@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATC Approved Resume Maker - Blog</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&family=Playfair+Display:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root Variables for Light and Dark Modes */
+      :root {
+        --light-gray: #c6c5b9;
+        --teal: #62929e;
+        --dark-teal: #4a6d7c;
+        --dark-green: #393a10;
+        --charcoal: #475657;
+        --primary-color: #2563eb;
+        --secondary-color: #0f172a;
+        --accent-color: #38bdf8;
+        --light-bg: #ffffff;
+        --dark-bg: #1e293b;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --btn-text: #ffffff;
+        --border-color: #c6c5b9;
+        --muted-text: #475657;
+        --success-color: #34c759;
+        --hover-red: #ff5555;
+        --transition-speed: 0.4s;
+      }
+
+      [data-theme="dark"] {
+        --light-gray: #e0e0e0;
+        --teal: #60a5fa;
+        --dark-teal: #1e40af;
+        --dark-green: #2d3748;
+        --charcoal: #e0e0e0;
+        --primary-color: #60a5fa;
+        --secondary-color: #1e40af;
+        --accent-color: #38bdf8;
+        --light-bg: #1e293b;
+        --dark-bg: #0f172a;
+        --text-color: #e0e0e0;
+        --card-bg: #252f3f;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --btn-text: #ffffff;
+        --border-color: #4b5563;
+        --muted-text: #9ca3af;
+        --success-color: #34d399;
+        --hover-red: #ff5555;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          to bottom,
+          var(--light-bg),
+          var(--light-gray)
+        );
+        color: var(--text-color);
+        line-height: 1.6;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+        box-shadow: 0 8px 20px var(--shadow-color);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        padding: 1.8rem 0;
+        backdrop-filter: blur(5px);
+      }
+
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        color: var(--btn-text);
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+      }
+
+      .navbar-brand:hover {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      }
+
+      .navbar-brand i {
+        margin-right: 1rem;
+        font-size: 1.8rem;
+        animation: spinCompass 10s linear infinite;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links li a {
+        color: var(--btn-text);
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-decoration: none;
+        position: relative;
+        transition: all var(--transition-speed);
+      }
+
+      .nav-links li a::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 3px;
+        bottom: -8px;
+        left: 0;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        transition: width var(--transition-speed);
+      }
+
+      .nav-links li a:hover::before,
+      .nav-links li a.active::before {
+        width: 100%;
+      }
+
+      .nav-links li a:hover,
+      .nav-links li a.active {
+        text-shadow: 0 0 10px var(--teal);
+        transform: translateY(-2px);
+      }
+
+      .nav-toggle {
+        display: none;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        color: var(--btn-text);
+        cursor: pointer;
+        transition: transform var(--transition-speed);
+      }
+
+      .nav-toggle:hover {
+        transform: rotate(90deg);
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+        color: var(--btn-text);
+        padding: 8rem 0 4rem;
+        text-align: center;
+        margin-top: 80px;
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+      }
+
+      .hero-buttons {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .btn {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        color: var(--btn-text);
+        box-shadow: 0 5px 15px var(--shadow-color);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px var(--shadow-color);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left var(--transition-speed);
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--btn-text);
+        border: 2px solid var(--teal);
+      }
+
+      .btn-secondary:hover {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border-color: transparent;
+        transform: translateY(-3px);
+      }
+
+      /* Featured Post */
+      .featured-post {
+        margin: 4rem 0;
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        transition: all var(--transition-speed);
+        cursor: pointer;
+      }
+
+      .featured-post:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .featured-post img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 25px 0 0 25px;
+      }
+
+      .post-content {
+        padding: 2rem;
+      }
+
+      .category {
+        background: var(--teal);
+        color: var(--btn-text);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .post-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dark-teal);
+        margin: 1rem 0;
+        line-height: 1.3;
+      }
+
+      .post-content p {
+        color: var(--charcoal);
+      }
+
+      .post-meta {
+        display: flex;
+        gap: 1rem;
+        color: var(--muted-text);
+        font-size: 0.875rem;
+        margin-top: 1rem;
+      }
+
+      /* Posts Grid */
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+      }
+
+      .post-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        transition: all var(--transition-speed);
+        cursor: pointer;
+      }
+
+      .post-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .post-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 25px 25px 0 0;
+      }
+
+      .post-card .post-content {
+        padding: 1.5rem;
+      }
+
+      /* Post View */
+      .post-content h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--dark-teal);
+        margin-bottom: 1rem;
+      }
+
+      .post-content ul {
+        padding-left: 1.5rem;
+        color: var(--charcoal);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--teal);
+        color: var(--teal);
+      }
+
+      .btn-outline:hover {
+        background: linear-gradient(45deg, var(--dark-green), var(--teal));
+        border-color: transparent;
+        color: var(--btn-text);
+      }
+
+      /* Features Section */
+      .features-section {
+        padding: 4rem 0;
+        background: linear-gradient(
+          to bottom,
+          var(--light-bg),
+          var(--light-gray)
+        );
+      }
+
+      .features-section h2,
+      .templates-section h2,
+      .about-section h2,
+      .testimonials h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--dark-teal);
+        text-align: center;
+        margin-bottom: 3rem;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .features-grid,
+      .templates-grid,
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        transition: all var(--transition-speed);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        color: var(--teal);
+        margin-bottom: 1rem;
+        transition: all var(--transition-speed);
+      }
+
+      .feature-card:hover .feature-icon {
+        transform: scale(1.2);
+      }
+
+      .feature-card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: var(--dark-teal);
+        margin-bottom: 1rem;
+      }
+
+      /* Templates Section */
+      .templates-section {
+        padding: 4rem 0;
+      }
+
+      .template-card {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        transition: all var(--transition-speed);
+      }
+
+      .template-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px var(--shadow-color);
+      }
+
+      .template-image {
+        height: 400px;
+        overflow: hidden;
+      }
+
+      .template-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 25px 25px 0 0;
+        transition: transform 0.5s ease;
+      }
+
+      .template-card:hover .template-image img {
+        transform: scale(1.05);
+      }
+
+      .template-content {
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .template-content h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        color: var(--dark-teal);
+        margin-bottom: 0.5rem;
+      }
+
+      .template-content p {
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+      }
+
+      .template-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      /* About Section */
+      .about-section {
+        padding: 4rem 0;
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .about-image {
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px var(--shadow-color);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .about-text h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.75rem;
+        color: var(--dark-teal);
+        margin-bottom: 1.5rem;
+      }
+
+      .about-text p {
+        color: var(--charcoal);
+        margin-bottom: 1.5rem;
+      }
+
+      .team-section {
+        margin-top: 4rem;
+      }
+
+      .team-section h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        color: var(--dark-teal);
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .team-member {
+        text-align: center;
+      }
+
+      .team-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 1rem;
+        border: 3px solid var(--teal);
+        transition: all var(--transition-speed);
+      }
+
+      .team-photo:hover {
+        transform: scale(1.1);
+      }
+
+      .team-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .team-name {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--dark-teal);
+        margin-bottom: 0.5rem;
+      }
+
+      .team-role {
+        color: var(--charcoal);
+        margin-bottom: 1rem;
+      }
+
+      /* Testimonials Section */
+      .testimonials {
+        padding: 4rem 0;
+      }
+
+      .testimonials-slider {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .testimonial {
+        background: linear-gradient(145deg, var(--card-bg), var(--light-gray));
+        border-radius: 25px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        text-align: center;
+        display: none;
+        transition: all var(--transition-speed);
+      }
+
+      .testimonial.active {
+        display: block;
+      }
+
+      .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--charcoal);
+        margin-bottom: 1.5rem;
+      }
+
+      .testimonial-author {
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+        color: var(--dark-teal);
+      }
+
+      .testimonial-role {
+        color: var(--muted-text);
+        font-size: 0.9rem;
+      }
+
+      .slider-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 1rem;
+      }
+
+      .slider-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--light-gray);
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+      }
+
+      .slider-dot.active {
+        background: var(--teal);
+      }
+
+      /* Footer */
+      footer {
+        background: linear-gradient(90deg, var(--dark-green), var(--charcoal));
+        color: var(--btn-text);
+        padding: 4rem 0 2rem;
+        position: relative;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, var(--teal), var(--light-gray));
+        animation: gradientFlow 5s linear infinite;
+      }
+
+      footer .footer-headings {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      footer .footer-section {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      footer h5 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        color: var(--teal);
+        margin-bottom: 1rem;
+      }
+
+      footer p {
+        font-size: 0.875rem;
+        color: var(--btn-text);
+      }
+
+      footer ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      footer ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      footer ul li a {
+        color: var(--btn-text);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+      }
+
+      footer ul li a:hover {
+        color: var(--teal);
+      }
+
+      footer .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Animations */
+      @keyframes spinCompass {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes gradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 991.98px) {
+        .navbar {
+          padding: 1.5rem 3rem;
+        }
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        .navbar-brand i {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar .container {
+          position: relative;
+        }
+        .nav-toggle {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: linear-gradient(90deg, var(--dark-teal), var(--teal));
+          padding: 1rem;
+          box-shadow: 0 8px 20px var(--shadow-color);
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .nav-links li {
+          margin: 0.5rem 0;
+          text-align: center;
+        }
+        .hero {
+          padding: 6rem 0 3rem;
+        }
+        .hero h1 {
+          font-size: 2rem;
+        }
+        .hero p {
+          font-size: 1rem;
+        }
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        .featured-post {
+          grid-template-columns: 1fr;
+        }
+        .featured-post img {
+          border-radius: 25px 25px 0 0;
+        }
+        .posts-grid,
+        .features-grid,
+        .templates-grid,
+        .about-content,
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
+        footer .footer-headings {
+          flex-direction: column;
+          align-items: center;
+        }
+        footer .footer-section {
+          text-align: center;
+          min-width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 0 1rem;
+        }
+        .navbar {
+          padding: 1rem 2rem;
+        }
+        .navbar-brand {
+          font-size: 1.2rem;
+        }
+        .navbar-brand i {
+          font-size: 1.2rem;
+        }
+        .hero h1 {
+          font-size: 1.5rem;
+        }
+        .post-content h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      /* Page Sections */
+      .page-section {
+        display: none;
+      }
+
+      .page-section.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-file-alt"></i> ATC Resume Builder
+        </a>
+        <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        <ul class="nav-links">
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li>
+            <a
+              onclick="showSection('blog')"
+              class="nav-link active"
+              data-section="blog"
+              >Blog</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="showSection('features')"
+              class="nav-link"
+              data-section="features"
+              >Features</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="showSection('templates')"
+              class="nav-link"
+              data-section="templates"
+              >Templates</a
+            >
+          </li>
+          <li>
+            <a
+              onclick="showSection('about')"
+              class="nav-link"
+              data-section="about"
+              >About</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="container">
+        <h1>Create ATC (Aim To Career) Resumes in Minutes</h1>
+        <p>
+          Professional resume builder with expert templates and instant PDF
+          generation
+        </p>
+        <div class="hero-buttons">
+          <a
+            href="{{ url_for('build_resume') }}"
+            class="btn btn-primary"
+            onclick="showSection('templates')"
+            >Build Your Resume</a
+          >
+          <a
+            href="#"
+            class="btn btn-secondary"
+            onclick="showSection('features')"
+            >Learn More</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Blog Section -->
+      <div id="blog-section" class="page-section active">
+        <div class="container">
+          <section class="featured-post" data-id="0">
+            <img
+              src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=800"
+              alt="Featured post"
+            />
+            <div class="post-content">
+              <span class="category">Career Tips</span>
+              <h2>The Ultimate Guide to Modern Resume Writing in 2025</h2>
+              <p>
+                Learn the latest trends and techniques to make your resume stand
+                out in today's competitive job market. Our ATC Approved Resume
+                Maker helps you implement these best practices automatically.
+              </p>
+              <div class="post-meta">
+                <span>March 15, 2025</span>
+                <span>8 min read</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="posts-grid" id="posts-container"></section>
+
+          <section class="testimonials">
+            <div class="container">
+              <h2>Quotes</h2>
+              <div class="testimonials-slider">
+                <div class="testimonial active">
+                  <p class="testimonial-text">
+                    "Opportunities don't happen. You create them."
+                  </p>
+                  <p class="testimonial-author">Chris Grosser</p>
+                </div>
+                <div class="testimonial">
+                  <p class="testimonial-text">
+                    "Your resume is not about what you want. It's about what
+                    you’ve done and how it fits what they need."
+                  </p>
+                  <p class="testimonial-author">Lou Adler</p>
+                </div>
+                <div class="testimonial">
+                  <p class="testimonial-text">
+                    "Choose a job you love, and you will never have to work a
+                    day in your life."
+                  </p>
+                  <p class="testimonial-author">Confucius</p>
+                </div>
+                <div class="slider-controls">
+                  <div class="slider-dot active" data-index="0"></div>
+                  <div class="slider-dot" data-index="1"></div>
+                  <div class="slider-dot" data-index="2"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <div id="features-section" class="page-section">
+        <section class="features-section">
+          <div class="container">
+            <h2>Powerful Resume Building Features</h2>
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <h3>User Accounts</h3>
+                <p>
+                  Create a free account to save your resumes and access them
+                  anytime, anywhere. Your data is securely stored and always
+                  accessible.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                <h3>Comprehensive Sections</h3>
+                <p>
+                  Build complete resumes with dedicated sections for education,
+                  work experience, projects, activities, and skills.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-download"></i></div>
+                <h3>Instant PDF Generation</h3>
+                <p>
+                  Download your professionally formatted resume as a PDF with
+                  one click, ready to send to employers.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Friendly</h3>
+                <p>
+                  Create and edit your resume on any device - desktop, tablet,
+                  or smartphone with our responsive design.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <h3>Customer Support</h3>
+                <p>
+                  Get help when you need it with our dedicated support team,
+                  ready to assist with any questions.
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                <h3>Secure & Private</h3>
+                <p>
+                  Your personal information is encrypted and protected. We never
+                  share your data with third parties.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="container">
+          <div class="about-content" style="margin: 4rem 0">
+            <div class="about-text">
+              <h3>Advanced Resume Building Tools</h3>
+              <p>
+                Our resume builder goes beyond basic templates with powerful
+                features designed to help you stand out:
+              </p>
+              <ul style="list-style-type: none; margin-bottom: 2rem">
+                <li style="margin-bottom: 1rem">
+                  <i
+                    class="fas fa-check"
+                    style="color: var(--teal); margin-right: 0.5rem"
+                  ></i
+                  ><strong>ATS Optimization</strong> - Ensure your resume passes
+                  through Applicant Tracking Systems
+                </li>
+                <li style="margin-bottom: 1rem">
+                  <i
+                    class="fas fa-check"
+                    style="color: var(--teal); margin-right: 0.5rem"
+                  ></i
+                  ><strong>Keyword Suggestions</strong> - Get industry-specific
+                  keyword recommendations
+                </li>
+                <li style="margin-bottom: 1rem">
+                  <i
+                    class="fas fa-check"
+                    style="color: var(--teal); margin-right: 0.5rem"
+                  ></i
+                  ><strong>Multiple Formats</strong> - Download in PDF, Word, or
+                  plain text formats
+                </li>
+                <li style="margin-bottom: 1rem">
+                  <i
+                    class="fas fa-check"
+                    style="color: var(--teal); margin-right: 0.5rem"
+                  ></i
+                  ><strong>Version Control</strong> - Create different versions
+                  for different job applications
+                </li>
+              </ul>
+              <a
+                href="{{ url_for('build_resume') }}"
+                class="btn btn-primary"
+                onclick="showSection('templates')"
+                >Try It Now</a
+              >
+            </div>
+            <div class="about-image">
+              <img
+                src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800"
+                alt="Advanced Resume Features"
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Templates Section -->
+      <div id="templates-section" class="page-section">
+        <section class="templates-section">
+          <div class="container">
+            <h2>Professional Resume Templates</h2>
+            <div class="templates-grid">
+              <div class="template-card">
+                <div class="template-image">
+                  <img
+                    src="https://cdn-images.zety.com/images/zety/landings/examples/teacher-resume-example@3x.png"
+                    alt="Professional Template"
+                  />
+                </div>
+                <div class="template-content">
+                  <h3>Professional</h3>
+                  <p>Clean and modern design for corporate positions</p>
+                  <div class="template-buttons">
+                    <a
+                      href="https://cdn-images.zety.com/images/zety/landings/examples/teacher-resume-example@3x.png"
+                      class="btn btn-outline"
+                      >Preview</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="template-card">
+                <div class="template-image">
+                  <img
+                    src="https://www.freshgigs.ca/blog/wp-content/uploads/2021/10/Screen-Shot-2021-10-21-at-6.53.31-PM.png"
+                    alt="Creative Template"
+                  />
+                </div>
+                <div class="template-content">
+                  <h3>Creative</h3>
+                  <p>Stand out with this bold design for creative fields</p>
+                  <div class="template-buttons">
+                    <a
+                      href="https://www.freshgigs.ca/blog/wp-content/uploads/2021/10/Screen-Shot-2021-10-21-at-6.53.31-PM.png"
+                      class="btn btn-outline"
+                      >Preview</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="template-card">
+                <div class="template-image">
+                  <img
+                    src="https://marketplace.canva.com/EAFRKRIA5Fs/1/0/1131w/canva-white-green-professional-business-cv-resume-qnt_5yD3VLk.jpg"
+                    alt="Technical Template"
+                  />
+                </div>
+                <div class="template-content">
+                  <h3>Technical</h3>
+                  <p>Optimized for technical roles and IT professionals</p>
+                  <div class="template-buttons">
+                    <a
+                      href="https://marketplace.canva.com/EAFRKRIA5Fs/1/0/1131w/canva-white-green-professional-business-cv-resume-qnt_5yD3VLk.jpg"
+                      class="btn btn-outline"
+                      >Preview</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- About Section -->
+      <div id="about-section" class="page-section">
+        <section class="about-section">
+          <div class="container">
+            <h2>About ATC Approved</h2>
+            <div class="about-content">
+              <div class="about-image">
+                <img
+                  src="https://content.presentermedia.com/files/clipart/00030000/30483/group_discussion_800_wht.jpg"
+                  alt="About ATC Approved"
+                />
+              </div>
+              <div class="about-text">
+                <h3>Our Mission</h3>
+                <p>
+                  At ATC (Aim To Career) Approved, we believe everyone deserves
+                  a chance to showcase their skills and experience in the best
+                  possible light. Our mission is to empower job seekers with
+                  professional tools that help them stand out in today's
+                  competitive job market.
+                </p>
+                <p>
+                  We're committed to continuous improvement and regularly update
+                  our templates and features based on the latest hiring trends
+                  and user feedback.
+                </p>
+              </div>
+            </div>
+
+            <div class="team-section">
+              <h3>Meet Our Team</h3>
+              <div class="team-grid">
+                <div class="team-member">
+                  <div class="team-photo">
+                    <img
+                      src="https://t4.ftcdn.net/jpg/08/16/96/17/240_F_816961760_UCWDjhwKEhL9lXsNIEZPjJVQkS38eIQX.jpg"
+                      alt="Yash A Bhandagi"
+                    />
+                  </div>
+                  <div class="team-name">Yash A B</div>
+                  <div class="team-role">Founder & CEO</div>
+                </div>
+                <div class="team-member">
+                  <div class="team-photo">
+                    <img
+                      src="https://t4.ftcdn.net/jpg/06/27/86/27/360_F_627862745_IO1iogtXwufcxlynAxHZGfpqzzmYWlk5.jpg"
+                      alt="Prajwal A Bhandagi"
+                    />
+                  </div>
+                  <div class="team-name">Prajwal A B</div>
+                  <div class="team-role">Lead Developer</div>
+                </div>
+                <div class="team-member">
+                  <div class="team-photo">
+                    <img
+                      src="https://t4.ftcdn.net/jpg/09/61/69/75/240_F_961697523_EFd1m8P4tdcwB0TYvlQAagqKR1xHSuwk.jpg"
+                      alt="Akshata Bhandagi"
+                    />
+                  </div>
+                  <div class="team-name">Akshata B</div>
+                  <div class="team-role">Career Expert</div>
+                </div>
+                <div class="team-member">
+                  <div class="team-photo">
+                    <img
+                      src="https://t3.ftcdn.net/jpg/06/72/52/84/240_F_672528465_Aen82jUghPXfMLi5XxyQZaSlki7E6HrS.jpg"
+                      alt="Neeraj Bhandagi"
+                    />
+                  </div>
+                  <div class="team-name">Neeraj B</div>
+                  <div class="team-role">Designs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-headings">
+          <div class="footer-section">
+            <h5>ATC Resume Builder</h5>
+            <p>
+              Your go-to tool for creating ATS-friendly resumes that land jobs.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h5>Quick Links</h5>
+            <ul>
+              <li><a href="{{ url_for('index') }}">Home</a></li>
+              <li><a onclick="showSection('blog')">Blog</a></li>
+              <li><a onclick="showSection('features')">Features</a></li>
+              <li><a onclick="showSection('templates')">Templates</a></li>
+              <li><a onclick="showSection('about')">About</a></li>
+              <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="{{ url_for('blog') }}">Blog</a></li>
+              <li><a href="{{ url_for('tips') }}">Resume Tips</a></li>
+              <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+              <li><a href="{{ url_for('support') }}">Support</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h5>Contact Us</h5>
+            <ul>
+              <li>
+                <a href="mailto:dropafile07@gmail.com">dropafile07@gmail.com</a>
+              </li>
+              <li>Bengaluru, Karnataka</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© {{ year }} ATC Resume Builder. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Blog posts data
+      const posts = [
+        {
+          id: 0,
+          title: "The Ultimate Guide to Modern Resume Writing in 2025",
+          excerpt:
+            "Learn the latest trends and techniques to make your resume stand out in today's competitive job market.",
+          category: "Career Tips",
+          date: "March 15, 2025",
+          readTime: "8 min read",
+          image:
+            "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>The Ultimate Guide to Modern Resume Writing in 2025</h1>
+            <p>In 2025, crafting a resume that stands out requires more than just listing your experience. With applicant tracking systems (ATS) and evolving employer expectations, here's how to modernize your resume:</p>
+            <h2>Key Features of ATC Approved Resume Maker</h2>
+            <ul>
+                <li><strong>User Accounts:</strong> Create a secure account to save and access your resumes anytime.</li>
+                <li><strong>Comprehensive Sections:</strong> Build complete resumes with education, work experience, projects, activities, and skills sections.</li>
+                <li><strong>PDF Generation:</strong> Download your professionally formatted resume as a PDF with one click.</li>
+                <li><strong>Mobile Friendly:</strong> Create and edit your resume on any device.</li>
+                <li><strong>Customer Support:</strong> Get help when you need it with our dedicated support team.</li>
+            </ul>
+            <p>Start building your ATC Approved resume today!</p>
+          `,
+        },
+        {
+          id: 1,
+          title: "How to Showcase Your Education Effectively",
+          excerpt:
+            "Learn how to present your academic achievements to impress potential employers.",
+          category: "Resume Tips",
+          date: "March 12, 2025",
+          readTime: "6 min read",
+          image:
+            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>How to Showcase Your Education Effectively</h1>
+            <p>Your education section is crucial, especially for recent graduates. Here's how to make it shine:</p>
+            <h2>Using ATC Approved's Education Section</h2>
+            <p>Our resume builder makes it easy to highlight your academic achievements:</p>
+            <ul>
+                <li>Add multiple institutions with degree details</li>
+                <li>Include your GPA if it strengthens your application</li>
+                <li>Highlight relevant coursework that aligns with job requirements</li>
+                <li>Format consistently across all educational entries</li>
+            </ul>
+            <p>With ATC Approved Resume Maker, your education section will stand out to employers!</p>
+          `,
+        },
+        {
+          id: 2,
+          title: "Crafting Compelling Work Experience Bullets",
+          excerpt:
+            "Transform your job descriptions into powerful achievement statements.",
+          category: "Writing Tips",
+          date: "March 10, 2025",
+          readTime: "7 min read",
+          image:
+            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>Crafting Compelling Work Experience Bullets</h1>
+            <p>Your work experience section is the heart of your resume. Here's how to make it powerful:</p>
+            <h2>Using ATC Approved's Experience Section</h2>
+            <p>Our resume builder helps you create impactful work experience entries:</p>
+            <ul>
+                <li>Add multiple positions with detailed information</li>
+                <li>Use bullet points to highlight achievements</li>
+                <li>Focus on results and quantifiable metrics</li>
+                <li>Maintain consistent formatting across all entries</li>
+            </ul>
+            <p>With ATC Approved Resume Maker, your work experience will demonstrate your value to employers!</p>
+          `,
+        },
+        {
+          id: 3,
+          title: "Highlighting Projects on Your Resume",
+          excerpt:
+            "Learn how to showcase your projects to demonstrate your skills and initiative.",
+          category: "Portfolio Building",
+          date: "March 8, 2025",
+          readTime: "5 min read",
+          image:
+            "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>Highlighting Projects on Your Resume</h1>
+            <p>Projects can demonstrate your skills and initiative, especially for those with limited work experience.</p>
+            <h2>Using ATC Approved's Projects Section</h2>
+            <p>Our resume builder makes it easy to showcase your projects:</p>
+            <ul>
+                <li>Add multiple projects with detailed descriptions</li>
+                <li>Highlight the technologies and skills used</li>
+                <li>Focus on your role and contributions</li>
+                <li>Include links to project repositories or demos when relevant</li>
+            </ul>
+            <p>With ATC Approved Resume Maker, your projects will help you stand out from other candidates!</p>
+          `,
+        },
+        {
+          id: 4,
+          title: "The Power of a Strong Skills Section",
+          excerpt:
+            "Learn how to create a skills section that gets you past ATS systems and impresses hiring managers.",
+          category: "ATS Optimization",
+          date: "March 5, 2025",
+          readTime: "4 min read",
+          image:
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>The Power of a Strong Skills Section</h1>
+            <p>Your skills section is crucial for passing ATS systems and catching the hiring manager's eye.</p>
+            <h2>Using ATC Approved's Skills Section</h2>
+            <p>Our resume builder helps you create an effective skills section:</p>
+            <ul>
+                <li>Add technical skills relevant to your target position</li>
+                <li>Include language proficiencies with fluency levels</li>
+                <li>List certifications and professional qualifications</li>
+                <li>Highlight awards and recognitions</li>
+            </ul>
+            <p>With ATC Approved Resume Maker, your skills section will help you get past ATS filters and impress hiring managers!</p>
+          `,
+        },
+        {
+          id: 5,
+          title: "Downloading and Sharing Your Resume",
+          excerpt:
+            "Learn how to generate a professional PDF resume and share it effectively with potential employers.",
+          category: "Job Search",
+          date: "March 3, 2025",
+          readTime: "3 min read",
+          image:
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+          content: `
+            <h1>Downloading and Sharing Your Resume</h1>
+            <p>Once you've created your perfect resume, it's time to share it with potential employers.</p>
+            <h2>Using ATC Approved's PDF Generation</h2>
+            <p>Our resume builder makes it easy to download and share your resume:</p>
+            <ul>
+                <li>Generate a professional PDF with one click</li>
+                <li>Ensure consistent formatting across all devices</li>
+                <li>Create multiple versions for different job applications</li>
+                <li>Download your resume with a custom filename</li>
+            </ul>
+            <p>With ATC Approved Resume Maker, you'll have a professional PDF resume ready to impress potential employers!</p>
+          `,
+        },
+      ];
+
+      // Function to create post cards
+      function createPostCard(post) {
+        return `
+          <article class="post-card" data-id="${post.id}">
+            <img src="${post.image}" alt="${post.title}">
+            <div class="post-content">
+              <span class="category">${post.category}</span>
+              <h3>${post.title}</h3>
+              <p>${post.excerpt}</p>
+              <div class="post-meta">
+                <span>${post.date}</span>
+                <span>${post.readTime}</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      // Render posts
+      function renderPosts() {
+        const postsContainer = document.getElementById("posts-container");
+        const otherPosts = posts.filter((post) => post.id !== 0);
+        postsContainer.innerHTML = otherPosts
+          .map((post) => createPostCard(post))
+          .join("");
+      }
+
+      // Handle post clicks
+      function handlePostClick(postId) {
+        const post = posts.find((p) => p.id === postId);
+        if (post) {
+          localStorage.setItem("currentPost", JSON.stringify(post));
+          window.location.href = "#post";
+          setTimeout(() => displayPost(post), 0);
+          collapseNavbar();
+        }
+      }
+
+      // Display individual post
+      function displayPost(post) {
+        const scrollPosition = window.scrollY;
+        const currentSection = document.querySelector(
+          ".page-section.active"
+        ).id;
+
+        const postContent = `
+          <div class="container" style="padding: 4rem 0;">
+            <a href="#" class="btn btn-outline" style="margin-bottom: 2rem;" onclick="showSection('${currentSection.replace(
+              "-section",
+              ""
+            )}')">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <article class="post-content">
+              ${post.content}
+            </article>
+          </div>
+        `;
+
+        const tempSection = document.createElement("div");
+        tempSection.id = "post-view-section";
+        tempSection.className = "page-section";
+        tempSection.innerHTML = postContent;
+
+        document.querySelector("main").appendChild(tempSection);
+
+        document.querySelectorAll(".page-section").forEach((section) => {
+          section.classList.remove("active");
+        });
+        tempSection.classList.add("active");
+
+        window.scrollTo(0, 0);
+        updateActiveNavLink("blog");
+      }
+
+      // Show section
+      function showSection(sectionName) {
+        const postView = document.getElementById("post-view-section");
+        if (postView) postView.remove();
+
+        document.querySelectorAll(".page-section").forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        document
+          .getElementById(`${sectionName}-section`)
+          .classList.add("active");
+        updateActiveNavLink(sectionName);
+        window.scrollTo(0, 0);
+        collapseNavbar();
+      }
+
+      // Update active nav link
+      function updateActiveNavLink(sectionName) {
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("data-section") === sectionName) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      // Collapse navbar on mobile
+      function collapseNavbar() {
+        const navLinks = document.querySelector(".nav-links");
+        if (window.innerWidth <= 768 && navLinks.classList.contains("active")) {
+          navLinks.classList.remove("active");
+        }
+      }
+
+      // Testimonial slider
+      function setupTestimonialSlider() {
+        const dots = document.querySelectorAll(".slider-dot");
+        const testimonials = document.querySelectorAll(".testimonial");
+
+        dots.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            const index = dot.getAttribute("data-index");
+            dots.forEach((d) => d.classList.remove("active"));
+            dot.classList.add("active");
+            testimonials.forEach((t) => t.classList.remove("active"));
+            testimonials[index].classList.add("active");
+            collapseNavbar();
+          });
+        });
+      }
+
+      // Navbar toggle for mobile
+      function setupNavbarToggle() {
+        const toggle = document.querySelector(".nav-toggle");
+        const navLinks = document.querySelector(".nav-links");
+        toggle.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+        });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        renderPosts();
+        setupNavbarToggle();
+        setupTestimonialSlider();
+
+        document
+          .querySelectorAll(".post-card, .featured-post")
+          .forEach((card) => {
+            card.addEventListener("click", () => {
+              const postId = parseInt(card.getAttribute("data-id"));
+              handlePostClick(postId);
+            });
+          });
+
+        if (window.location.hash === "#post") {
+          const post = JSON.parse(localStorage.getItem("currentPost"));
+          if (post) displayPost(post);
+        }
+
+        if (window.location.hash) {
+          const section = window.location.hash.substring(1);
+          if (document.getElementById(`${section}-section`)) {
+            showSection(section);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roadmap.sh Clone</title>
+    <style>
+      :root {
+        --primary-color: #3b82f6;
+        --yellow-color: #fbbf24;
+        --dark-bg: #111827;
+        --light-bg: #f3f4f6;
+        --border-color: #e5e7eb;
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+
+      body {
+        background-color: var(--light-bg);
+        color: var(--text-dark);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 10px 0;
+      }
+
+      .top-banner {
+        background-color: var(--yellow-color);
+        color: black;
+        text-align: center;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      .top-banner button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-left a {
+        color: white;
+        text-decoration: none;
+        margin-right: 20px;
+      }
+
+      .nav-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-right a {
+        color: white;
+        text-decoration: none;
+        margin-left: 15px;
+      }
+
+      .login-button {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .signup-button {
+        background-color: var(--primary-color);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      /* Main page styles */
+      .roadmaps-container {
+        display: flex;
+        margin-top: 20px;
+      }
+
+      .sidebar {
+        width: 200px;
+        background-color: white;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar h3 {
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: var(--text-dark);
+      }
+
+      .sidebar ul {
+        list-style: none;
+      }
+
+      .sidebar li {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: var(--text-light);
+        cursor: pointer;
+      }
+
+      .sidebar li:hover {
+        color: var(--primary-color);
+      }
+
+      .sidebar li.active {
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      .roadmaps-grid {
+        flex: 1;
+        padding-left: 20px;
+      }
+
+      .roadmaps-section h2 {
+        margin: 20px 0 15px;
+        font-size: 16px;
+        color: var(--text-light);
+      }
+
+      .roadmaps-grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+
+      .roadmap-card {
+        background-color: white;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .roadmap-card:hover {
+        border-color: var(--primary-color);
+      }
+
+      .roadmap-card input[type="checkbox"] {
+        margin-left: auto;
+      }
+
+      /* Data Analyst Roadmap Page */
+      .roadmap-page {
+        display: none;
+        background-color: white;
+        min-height: 100vh;
+      }
+
+      .roadmap-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-color);
+        text-align: center;
+      }
+
+      .roadmap-header h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+
+      .roadmap-header p {
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .roadmap-actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .action-buttons button {
+        background-color: var(--light-bg);
+        border: 1px solid var(--border-color);
+        padding: 5px 10px;
+        border-radius: 4px;
+        margin-right: 10px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .download-button {
+        background-color: var(--yellow-color) !important;
+        color: black;
+      }
+
+      .print-button {
+        background-color: var(--primary-color) !important;
+        color: white;
+      }
+
+      .roadmap-content {
+        padding: 20px;
+        position: relative;
+      }
+
+      /* Roadmap visualization */
+      .roadmap-viz {
+        width: 100%;
+        overflow: auto;
+        padding: 20px;
+      }
+
+      .node {
+        background-color: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 4px;
+        padding: 8px 12px;
+        display: inline-block;
+        margin: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .node:hover {
+        background-color: #fde68a;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .node-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .node-row {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      /* Modal popup */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 600px;
+        position: relative;
+      }
+
+      .close-modal {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .modal-footer {
+        text-align: right;
+      }
+
+      .modal-footer button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      /* FAQ Section */
+      .faq-section {
+        margin-top: 40px;
+      }
+
+      .faq-item {
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 15px;
+        background-color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .faq-answer {
+        padding: 0 15px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background-color: var(--light-bg);
+      }
+
+      .faq-answer.active {
+        padding: 15px;
+        max-height: 500px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--dark-bg);
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 40px;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .community-stats {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+        gap: 30px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .footer-logo {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner -->
+    <div class="top-banner">
+      🔥 Summer Sale: 30% off on our premium content!
+      <button>Learn more</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <nav>
+        <div class="nav-left">
+          <a href="#" class="logo"><strong>roadmap.sh</strong></a>
+          <a href="#">Roadmaps</a>
+          <a href="#">Best Practices</a>
+          <a href="#">Guides</a>
+          <a href="#">Videos</a>
+        </div>
+        <div class="nav-right">
+          <a href="#">Search</a>
+          <button class="login-button">Login</button>
+          <button class="signup-button">Sign Up</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content - Homepage -->
+    <div class="container main-page" id="homepage">
+      <div class="roadmaps-container">
+        <div class="sidebar">
+          <h3>All Roadmaps</h3>
+          <ul>
+            <li class="active">Absolute Beginners</li>
+            <li>Web Development</li>
+            <li>Frameworks</li>
+            <li>Languages / Platforms</li>
+            <li>DevOps</li>
+            <li>Mobile Development</li>
+            <li>Databases</li>
+            <li>Computer Science</li>
+            <li>Machine Learning</li>
+            <li>Management</li>
+            <li>Game Development</li>
+            <li>Design</li>
+            <li>Blockchain</li>
+            <li>Cyber Security</li>
+          </ul>
+        </div>
+
+        <div class="roadmaps-grid">
+          <div class="roadmaps-section">
+            <h2>ROLE BASED ROADMAPS</h2>
+            <div class="roadmaps-grid-container">
+              <div class="roadmap-card">
+                <span>Frontend Beginner</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Backend Beginner</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>DevOps Beginner</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Frontend</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Backend</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Full Stack</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>API Design</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>QA</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>DevOps</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Android</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>iOS</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>PostgreSQL</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Software Architect</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Technical Writer</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>DevRel Engineer</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>AI and Data Scientist</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>AI Engineer</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card" id="data-analyst-card">
+                <span>Data Analyst</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>MLOps</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Product Manager</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Engineering Manager</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Client Side Game Dev.</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Server Side Game Dev.</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>UX Design</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Blockchain</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Cyber Security</span>
+                <input type="checkbox" />
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmaps-section">
+            <h2>SKILL BASED ROADMAPS</h2>
+            <div class="roadmaps-grid-container">
+              <div class="roadmap-card">
+                <span>GraphQL</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Git and GitHub</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>React</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Vue</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Angular</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Spring Boot</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>ASP.NET Core</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>JavaScript</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>TypeScript</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Node.js</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>PHP</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>C++</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Go</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Rust</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Python</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Java</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>SQL</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Docker</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Kubernetes</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>AWS</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Cloudflare</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Linux</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Terraform</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>React Native</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Flutter</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>MongoDB</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Redis</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Computer Science</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Data Structures</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>System Design</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Design and Architecture</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Code Review</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Prompt Engineering</span>
+                <input type="checkbox" />
+              </div>
+              <div class="roadmap-card">
+                <span>Design System</span>
+                <input type="checkbox" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Analyst Roadmap Page -->
+    <div class="roadmap-page" id="data-analyst-page">
+      <div class="roadmap-header">
+        <h1>Data Analyst Roadmap</h1>
+        <p>Step by step guide to becoming an awesome data analyst in 2024</p>
+      </div>
+
+      <div class="roadmap-actions">
+        <div class="action-buttons">
+          <button>Roadmap</button>
+          <button>Topics</button>
+          <button class="download-button">Download</button>
+          <button class="print-button">Print</button>
+        </div>
+        <div class="progress">
+          <span>Track Progress</span>
+        </div>
+      </div>
+
+      <div class="roadmap-content">
+        <div class="roadmap-viz">
+          <!-- Main node -->
+          <div class="section">
+            <h3 class="section-title">What is Data Analysis?</h3>
+            <div class="node-group">
+              <div
+                class="node"
+                data-info="Data Analyst is someone who collects, processes, and performs statistical analyses on large datasets to identify patterns and trends."
+              >
+                Data Analyst
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">Building a Strong Foundation</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data."
+                >
+                  Statistics / Working with Data
+                </div>
+              </div>
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Learn how to clean and process raw data for analysis."
+                >
+                  Data Cleaning
+                </div>
+                <div
+                  class="node"
+                  data-info="Excel is a powerful tool for data analysts and is widely used in businesses."
+                >
+                  Excel
+                </div>
+                <div
+                  class="node"
+                  data-info="Learn to present data insights visually to make them more accessible."
+                >
+                  Data Visualization
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">The Concept of Big Data</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Big Data refers to extremely large data sets that may be analyzed computationally to reveal patterns, trends, and associations."
+                >
+                  What is Big Data?
+                </div>
+              </div>
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Learn about the 5 Vs of Big Data: Volume, Velocity, Variety, Veracity, and Value."
+                >
+                  The 5 Vs
+                </div>
+                <div
+                  class="node"
+                  data-info="Learn about tools and technologies used for processing and analyzing big data."
+                >
+                  Big Data Processing
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">Learn Programming Languages</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Python is one of the most popular languages for data analysis due to its simplicity and powerful libraries."
+                >
+                  Python
+                </div>
+                <div
+                  class="node"
+                  data-info="R is a language specifically designed for statistical analysis and visualization."
+                >
+                  R
+                </div>
+                <div
+                  class="node"
+                  data-info="SQL is essential for working with databases and extracting data."
+                >
+                  SQL
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">Data Analysis Techniques</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Descriptive analysis examines what happened in the past."
+                >
+                  Descriptive Analysis
+                </div>
+                <div
+                  class="node"
+                  data-info="Diagnostic analysis examines why something happened."
+                >
+                  Diagnostic Analysis
+                </div>
+              </div>
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Predictive analysis predicts what might happen in the future."
+                >
+                  Predictive Analysis
+                </div>
+                <div
+                  class="node"
+                  data-info="Prescriptive analysis suggests actions to take based on findings."
+                >
+                  Prescriptive Analysis
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">Machine Learning Basics</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Supervised learning algorithms are trained using labeled examples."
+                >
+                  Supervised Learning
+                </div>
+                <div
+                  class="node"
+                  data-info="Unsupervised learning algorithms find patterns in data without labels."
+                >
+                  Unsupervised Learning
+                </div>
+              </div>
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Reinforcement learning is learning through trial and error with rewards."
+                >
+                  Reinforcement Learning
+                </div>
+                <div
+                  class="node"
+                  data-info="Using ML algorithms to extract business insights."
+                >
+                  Practical Business Applications
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">Big Data Technologies</h3>
+            <div class="node-group">
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Hadoop is an open-source framework that allows distributed processing of large data sets."
+                >
+                  Hadoop
+                </div>
+                <div
+                  class="node"
+                  data-info="Apache Spark is a fast, in-memory data processing engine."
+                >
+                  Spark
+                </div>
+              </div>
+              <div class="node-row">
+                <div
+                  class="node"
+                  data-info="Data visualization tools like Tableau help in creating interactive visual analytics."
+                >
+                  Data Visualization Tools
+                </div>
+                <div
+                  class="node"
+                  data-info="Cloud platforms provide scalable resources for big data processing."
+                >
+                  Cloud Computing
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-section">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Is Data Analysis a good career choice?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Data Analysis is a great career choice. It's in high demand
+                across industries because data has become invaluable for making
+                strategic decisions. Data Analysts enjoy competitive salaries,
+                have various career paths including management and specialized
+                roles, and work with cutting-edge tools and technologies. While
+                it requires technical skills, analytical thinking, and
+                continuous learning, the field offers intellectual challenge and
+                meaningful work helping companies make data-driven decisions.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>What qualifications do I need to be a Data Analyst?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                While a bachelor's degree in statistics, mathematics, computer
+                science or a related field is often preferred, many data
+                analysts come from diverse backgrounds and build their skills
+                through self-study, online courses, bootcamps, or
+                certifications. The key technical skills required include
+                proficiency in SQL, spreadsheet tools like Excel, statistical
+                programming languages like Python or R, and data visualization
+                tools. Equally important are analytical thinking,
+                problem-solving abilities, and communication skills to
+                effectively present insights to non-technical stakeholders.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Are Data Analysts well paid?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              <p>
+                Yes, Data Analysts are generally well-compensated. Entry-level
+                positions typically start at above-average salaries, with
+                significant growth potential as you gain experience and
+                specialized skills. Factors affecting salary include location,
+                industry, company size, education level, and technical
+                expertise. Data Analysts in finance, tech, and healthcare often
+                command higher salaries. As you advance in your career, roles
+                like Senior Data Analyst, Data Scientist, or Analytics Manager
+                offer substantial salary increases.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Is Data Analysis hard to learn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
