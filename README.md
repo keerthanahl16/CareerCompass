@@ -83,6 +83,7 @@ python app.py
 API Endpoints
 
 Career Roadmap Generator
+
 1.Endpoint: /generate-roadmap
 2.Method: POST
 3.Payload:
@@ -95,6 +96,7 @@ Career Roadmap Generator
 }
 
 Resume Analyzer
+
 1.Endpoint: /analyze-resume
 2.Method: POST
 3.Payload:
@@ -103,6 +105,7 @@ Resume Analyzer
 }
 
 Progress Tracker
+
 1.Endpoint: /track-progress
 2.Method: POST
 3.Payload:
@@ -111,6 +114,7 @@ Progress Tracker
 }
 
 Resume Comparison
+
 1.Endpoint: /compare-resumes
 2.Method: POST
 3.Payload:
@@ -120,6 +124,7 @@ Resume Comparison
 }
 
 Career Chatbot
+
 1.Endpoint: /chat
 2.Method: POST
 3.Payload:
@@ -128,6 +133,7 @@ Career Chatbot
 }
 
 Frontend Routes
+
 /: Homepage
 /roadmap: Career roadmap generator interface
 /resume-analyzer: Resume analysis tool
@@ -136,6 +142,7 @@ Frontend Routes
 /chatbot: Career guidance chatbot interface
 
 Error Handling
+
 The application includes comprehensive error handling:
 
 1.Validates input data
@@ -144,12 +151,14 @@ The application includes comprehensive error handling:
 4.Includes detailed error messages for debugging
 
 Security Considerations
+
 1.Implements CORS for cross-origin requests
 2.API key should be stored securely in production
 3.Input validation on all endpoints
 4.Error messages are sanitized in production
 
 Development
+
 The application runs in debug mode by default on port 5000. For production:
 
 1.Disable debug mode
@@ -159,6 +168,7 @@ The application runs in debug mode by default on port 5000. For production:
 5.Set up proper CORS policies
 
 Contributing
+
 1.Fork the repository
 2.Create a feature branch
 3.Commit your changes
