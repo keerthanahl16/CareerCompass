@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Get the Gemini API key from environment variables
-GEMINI_API_KEY = ("AIzaSyCvtYnk_dg6tbdc4lund2m7Q8k2_j2jc8c")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.0-flash")
 
@@ -127,6 +127,4 @@ def chat():
         return jsonify({"response": "- Sorry, I couldn’t process that.\n- Try asking again!"}), 200
 
 if __name__ == "__main__":
-
     app.run(debug=True, port=5000)
-
